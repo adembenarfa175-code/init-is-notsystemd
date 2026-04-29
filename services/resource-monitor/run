@@ -1,0 +1,20 @@
+#!/bin/sh
+# User-Service: Health Watcher
+printf "[User-Service] Monitoring system health...\n"
+
+while true; do
+    # فحص مساحة القرص (أكثر من 90%)
+    usage=$(df / | tail -1 | awk '{print $5}' | sed 's/%//')
+    if [ "$usage" -gt 90 ]; then
+        printf "[ALERT] Disk usage is at ${usage}%!\n" > /dev/kmsg
+    fi
+
+    # فحص حرارة المعالج (إذا تجاوزت 80 درجة)
+    if [ -f /sys/class/thermal/thermal_zone0/temp ]; then
+        temp=$(cat /sys/class/thermal/thermal_zone0/temp | cut -c1-2)
+        if [ "$temp" -gt 80 ]; then
+             printf "[ALERT] CPU Temperature is too high: ${temp}C\n" > /dev/kmsg
+        fi
+    fi
+    sleep 60
+done

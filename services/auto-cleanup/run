@@ -1,0 +1,11 @@
+#!/bin/sh
+# User-Service: Maintenance
+printf "[User-Service] Scheduled cleanup active.\n"
+
+while true; do
+    printf "[*] Cleaning temporary files and old logs...\n"
+    rm -rf /tmp/* 2>/dev/null
+    find /var/log -type f -mtime +7 -delete 2>/dev/null
+    # الانتظار لمدة يوم كامل
+    sleep 86400
+done

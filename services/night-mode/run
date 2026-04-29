@@ -1,0 +1,15 @@
+#!/bin/sh
+# User-Service: Auto-Brightness
+printf "[User-Service] Night Mode service active.\n"
+
+while true; do
+    hour=$(date +%H)
+    # بين الساعة 8 مساءً و 6 صباحاً، خفض السطوع
+    if [ "$hour" -ge 20 ] || [ "$hour" -le 06 ]; then
+        # نفترض وجود متحكم السطوع في هذا المسار
+        echo 50 > /sys/class/backlight/*/brightness 2>/dev/null
+    else
+        echo 255 > /sys/class/backlight/*/brightness 2>/dev/null
+    fi
+    sleep 1800
+done

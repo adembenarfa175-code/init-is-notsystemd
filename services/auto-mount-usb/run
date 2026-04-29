@@ -1,0 +1,16 @@
+#!/bin/sh
+# Professional Auto-Mount Service
+printf "[User-Service] USB Auto-Monitor started.\n"
+
+mkdir -p /media
+# مراقبة ظهور أقراص جديدة في /dev/sd*
+while true; do
+    for dev in /dev/sd[a-z][1-9]; do
+        if [ -b "$dev" ] && ! mountpoint -q "/media/$(basename $dev)"; then
+            mkdir -p "/media/$(basename $dev)"
+            mount -o sync,noatime "$dev" "/media/$(basename $dev)"
+            printf "[+] Mounted $dev to /media/$(basename $dev)\n"
+        fi
+    done
+    sleep 5
+done

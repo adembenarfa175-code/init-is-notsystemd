@@ -1,0 +1,10 @@
+#!/bin/sh
+# Professional SSH Auto-Start
+if [ -x "/usr/sbin/sshd" ]; then
+    mkdir -p /var/run/sshd
+    printf "[User-Service] Starting SSH Server...\n"
+    exec /usr/sbin/sshd -D
+else
+    printf "[!] SSHD not found, service inactive.\n"
+    exit 1
+fi
