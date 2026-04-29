@@ -1,0 +1,10 @@
+[Unit]
+Description=Professional Auto Cleanup Service
+After=core-fs.service
+
+[Service]
+Type=simple
+ExecStart=./services/auto-cleanup/run
+Restart=on-failure
+RestartSec=60
+User=root

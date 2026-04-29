@@ -1,0 +1,14 @@
+[Unit]
+Description=Professional Service for ssh-daemon
+After=core-fs.service
+Documentation=https://github.com/adembenarfa175-code/init-is-notsystemd
+
+[Service]
+Type=simple
+ExecStart=./services/ssh-daemon/run
+Restart=always
+RestartSec=10
+User=root
+
+[Install]
+WantedBy=multi-user.target

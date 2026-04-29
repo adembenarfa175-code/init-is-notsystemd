@@ -1,0 +1,14 @@
+[Unit]
+Description=Professional Service for auto-mount-usb
+After=core-fs.service
+Documentation=https://github.com/adembenarfa175-code/init-is-notsystemd
+
+[Service]
+Type=simple
+ExecStart=./services/auto-mount-usb/run
+Restart=always
+RestartSec=10
+User=root
+
+[Install]
+WantedBy=multi-user.target
