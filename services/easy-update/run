@@ -1,0 +1,9 @@
+#!/bin/sh
+# Professional Easy-Update
+printf "[User-Service] System Update Watcher active.\n"
+
+while true; do
+    # فحص التحديثات كل 12 ساعة
+    # إذا وجدت تحديثات، أرسل إشعاراً أو قم بالتحديث في الخلفية
+    sleep 43200
+done

@@ -1,0 +1,56 @@
+#!/bin/sh
+# Professional Driver Installer - Hardware-Aware Binary Deployer
+
+LOG_FILE="/var/log/proinit-drivers.log"
+
+log() {
+    printf "\033[0;35m[Driver-Manager]\033[0m $1\n"
+}
+
+# 1. التحقق من المعمارية (Architecture Check)
+ARCH=$(uname -m)
+log "Detected Architecture: $ARCH"
+
+# 2. فحص العتاد (Hardware IDs)
+# سنستخدم lspci أو فحص مجلد /sys مباشرة لجلب المعرفات
+log "Scanning Hardware Components..."
+
+# 3. دالة جلب وتثبيت ملف الـ ELF
+install_driver() {
+    local url=$1
+    local name=$2
+    local target_arch=$3
+
+    # التحقق من مطابقة المعمارية قبل التحميل
+    if [ "$ARCH" != "$target_arch" ]; then
+        log "Skipping $name: Incompatible architecture (Needs $target_arch)"
+        return 1
+    fi
+
+    log "Downloading Official $name Driver..."
+    curl -L "$url" -o "/tmp/$name.elf"
+    
+    # التحقق من أن الملف فعلياً ELF وصالح لهذه المعمارية
+    if file "/tmp/$name.elf" | grep -q "ELF.*$ARCH"; then
+        log "Binary Verified. Executing installation..."
+        chmod +x "/tmp/$name.elf"
+        /tmp/$name.elf --install --silent >> "$LOG_FILE" 2>&1
+    else
+        log "ERROR: Binary verification failed for $name"
+    fi
+}
+
+# 4. منطق التثبيت الذكي بناءً على الشركة المصنعة
+# مثال لفحص بطاقة الشاشة
+if lspci | grep -qi "nvidia"; then
+    log "NVIDIA Hardware detected."
+    # رابط تخيلي لملف ELF رسمي
+    # install_driver "https://us.download.nvidia.com/.../NVIDIA.elf" "Nvidia-Gfx" "x86_64"
+fi
+
+if lspci | grep -qi "intel"; then
+    log "Intel Graphics/Network detected."
+    # منطق Intel هنا
+fi
+
+exit 0

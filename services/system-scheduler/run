@@ -1,0 +1,21 @@
+#!/bin/sh
+# Professional System Scheduler (Shutdown/Warp Timer)
+CONF="/var/proinit/config/schedule.conf"
+
+printf "[User-Service] System Scheduler active.\n"
+
+while true; do
+    if [ -f "$CONF" ]; then
+        # قراءة الوقت المجدد من الملف (تنسيق HH:MM)
+        TARGET_TIME=$(cat "$CONF" | grep "SHUTDOWN_TIME" | cut -d'=' -f2)
+        CURRENT_TIME=$(date +%H:%M)
+
+        if [ "$TARGET_TIME" = "$CURRENT_TIME" ]; then
+            printf "[]; Scheduled shutdown reached ($TARGET_TIME). Powering off...\n" > /dev/kmsg
+            # إرسال إشارة للمدير عبر الـ API لإطفاء الجهاز
+            poweroff
+        fi
+    fi
+    # الفحص كل دقيقة لتوفير الموارد
+    sleep 60
+done
