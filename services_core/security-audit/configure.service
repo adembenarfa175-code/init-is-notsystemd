@@ -1,0 +1,8 @@
+[Unit]
+Description=Professional System Integrity Audit
+After=core-fs.service
+
+[Service]
+Type=oneshot
+ExecStart=./services_core/security-audit/run
+User=root

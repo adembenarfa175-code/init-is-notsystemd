@@ -1,0 +1,3 @@
+#!/bin/sh
+printf "[Service] Control Interface Active.\n"
+while true; do sleep 3600; done

@@ -1,0 +1,4 @@
+#!/bin/sh
+printf "[Service] Cleaning temporary boot files...\n"
+rm -rf /run/*.pid /run/reboot_now 2>/dev/null
+printf "\n\033[0;32m>>> System is Ready, Professional! <<<\033[0m\n"

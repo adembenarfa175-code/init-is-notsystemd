@@ -1,0 +1,14 @@
+[Unit]
+Description=Professional Service for modules
+After=core-fs.service
+Documentation=https://github.com/professional/init-not-systemd
+
+[Service]
+Type=simple
+ExecStart=./services/modules/run
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target

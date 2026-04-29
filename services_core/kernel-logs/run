@@ -1,0 +1,4 @@
+#!/bin/sh
+printf "[Service] Initializing Kernel Log buffer...\n"
+# ضبط مستوى ظهور الأخطاء على الشاشة
+dmesg -n 1

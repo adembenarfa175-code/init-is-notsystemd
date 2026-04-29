@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ -x "/data/data/com.termux/files/home/init-not-systemd/bin/syslogd" ]; then
+    printf "[Service] Starting our private Logger from bin/...\n"
+    exec "/data/data/com.termux/files/home/init-not-systemd/bin/syslogd" -n -O /var/log/messages
+elif command -v syslogd >/dev/null; then
+    printf "[Service] Starting system-wide Logger...\n"
+    exec syslogd -n -O /var/log/messages
+else
+    printf "[!] Error: No logger found in /data/data/com.termux/files/home/init-not-systemd/bin or PATH.\n"
+fi

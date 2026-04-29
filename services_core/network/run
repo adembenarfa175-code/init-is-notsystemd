@@ -1,0 +1,18 @@
+#!/bin/sh
+# فحص هل نستخدم أدواتنا الخاصة في bin/
+if [ -x "/data/data/com.termux/files/home/init-not-systemd/bin/udhcpc" ]; then
+    DHCP_CMD="/data/data/com.termux/files/home/init-not-systemd/bin/udhcpc"
+else
+    DHCP_CMD=$(command -v udhcpc)
+fi
+
+printf "[Service] Network Environment Check...\n"
+INTERFACE=$(ip link show | awk -F': ' '/state UP/ {print $2}' | grep -v "lo" | head -n 1)
+
+if [ -n "$INTERFACE" ] && [ -n "$DHCP_CMD" ]; then
+    printf "[+] Using DHCP tool: %s on %s\n" "$DHCP_CMD" "$INTERFACE"
+    ip link set "$INTERFACE" up
+    exec "$DHCP_CMD" -i "$INTERFACE" -n -q
+else
+    printf "[!] Missing network tools or interface. Check bin/ folder.\n"
+fi

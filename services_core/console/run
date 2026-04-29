@@ -1,0 +1,3 @@
+#!/bin/sh
+printf "[Service] Configuring Virtual Console...\n"
+[ -x /usr/bin/setfont ] && setfont LatArCyrHeb-16 2>/dev/null

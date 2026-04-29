@@ -1,0 +1,10 @@
+#!/bin/sh
+printf "\033[0;36m[Network] Setting up DNS resolvers...\033[0m "
+
+cat << 'DNS' > /etc/resolv.conf
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+options timeout:2 attempts:3
+DNS
+
+printf "[\033[0;32mOK\033[0m]\n"

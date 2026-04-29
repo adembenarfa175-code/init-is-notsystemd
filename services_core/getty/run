@@ -1,0 +1,9 @@
+#!/bin/sh
+printf "[Service] Getty is monitoring tty1...\n"
+# التأكد من وجود الطرفية قبل التشغيل
+if [ -c /dev/tty1 ]; then
+    exec setsid /sbin/getty -L tty1 115200 linux
+else
+    # Fallback for Termux/Containers
+    exec /bin/sh
+fi

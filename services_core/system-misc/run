@@ -1,0 +1,16 @@
+#!/bin/sh
+# فحص هل يوجد اسم محدد مسبقاً في الملفات الإعدادية
+if [ -f /etc/hostname ]; then
+    HNAME=$(cat /etc/hostname)
+    printf "[Service] Setting hostname from /etc/hostname: %s\n" "$HNAME"
+else
+    HNAME="Professional-OS"
+    printf "[Service] No /etc/hostname found. Defaulting to: %s\n" "$HNAME"
+fi
+
+# تطبيق الاسم برمجياً
+printf "$HNAME" > /proc/sys/kernel/hostname 2>/dev/null
+hostname "$HNAME" 2>/dev/null
+
+# ضبط الوقت
+hwclock -s 2>/dev/null || printf "[!] System clock synced via Kernel.\n"

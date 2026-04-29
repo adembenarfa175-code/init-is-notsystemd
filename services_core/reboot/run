@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Professional Init - Reboot Listener Service
+# This service waits for a reboot trigger
+
+TRIGGER_FILE="/run/reboot_now"
+
+echo "[Service] Reboot listener is active..."
+
+while true; do
+    if [ -f "$TRIGGER_FILE" ]; then
+        echo "[!] Reboot trigger detected!"
+        rm -f "$TRIGGER_FILE"
+        
+        # Sourcing our Swiss Army Knife
+        if [ -f "./core/utils.sh" ]; then
+            . ./core/utils.sh
+            reboot_sys
+        else
+            echo "Error: utils.sh not found, forcing reboot..."
+            sync
+            reboot
+        fi
+    fi
+    sleep 2
+done

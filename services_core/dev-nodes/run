@@ -1,0 +1,4 @@
+#!/bin/sh
+printf "[Service] Populating /dev nodes...\n"
+# في الأنظمة البسيطة، نحتاج لتشغيل mdev (بديل udev الصغير)
+mdev -s 2>/dev/null || printf "mdev not found, skipping static nodes.\n"

@@ -1,0 +1,9 @@
+#!/bin/sh
+# حماية الـ PID 1 والمدير من الـ Out Of Memory Killer
+printf "\033[0;36m[OOM] Protecting core processes...\033[0m "
+
+# -1000 تعني "لا تقتلني أبداً"
+echo -1000 > /proc/1/oom_score_adj
+pgrep -f "manager.sh" | xargs -I {} echo -1000 > /proc/{}/oom_score_adj 2>/dev/null
+
+printf "[\033[0;32mDONE\033[0m]\n"

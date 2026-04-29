@@ -1,0 +1,5 @@
+#!/bin/sh
+printf "[Service] Injecting our bin/ into system PATH...\n"
+# نضع مجلد bin الخاص بنا في أول الطريق لضمان استخدامه قبل أي شيء آخر
+export PATH="/data/data/com.termux/files/home/init-not-systemd/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+printf "[+] PATH is now: $PATH\n"

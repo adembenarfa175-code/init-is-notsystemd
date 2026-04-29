@@ -1,0 +1,4 @@
+#!/bin/sh
+printf "[Service] Ensuring Bin/Sbin consistency...\n"
+# هذا ما يفعله Arch و Debian حالياً لتوحيد النظام
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

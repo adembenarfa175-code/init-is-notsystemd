@@ -1,0 +1,7 @@
+#!/bin/sh
+printf "[Service] Loading Kernel modules...\n"
+if [ -f /etc/modules ]; then
+    cat /etc/modules | while read module; do
+        modprobe "$module" 2>/dev/null
+    done
+fi

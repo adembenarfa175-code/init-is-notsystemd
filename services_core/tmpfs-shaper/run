@@ -1,0 +1,8 @@
+#!/bin/sh
+printf "\033[0;36m[Storage] Shaping RAM-disk (tmpfs)...\033[0m "
+
+# تركيب /tmp و /run في الذاكرة لسرعة خرافية
+mount -t tmpfs -o nodev,nosuid,size=512M tmpfs /tmp 2>/dev/null
+mount -t tmpfs -o nodev,nosuid,mode=0755,size=128M tmpfs /run 2>/dev/null
+
+printf "[\033[0;32mDONE\033[0m]\n"

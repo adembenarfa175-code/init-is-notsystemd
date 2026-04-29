@@ -1,0 +1,14 @@
+[Unit]
+Description=Professional Service for udev-daemon
+After=core-fs.service
+Documentation=https://github.com/professional/init-not-systemd
+
+[Service]
+Type=simple
+ExecStart=./services/udev-daemon/run
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target

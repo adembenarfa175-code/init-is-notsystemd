@@ -1,0 +1,14 @@
+[Unit]
+Description=Professional Service for mount-all
+After=core-fs.service
+Documentation=https://github.com/professional/init-not-systemd
+
+[Service]
+Type=simple
+ExecStart=./services/mount-all/run
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target

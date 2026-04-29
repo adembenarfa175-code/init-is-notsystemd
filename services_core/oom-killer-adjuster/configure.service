@@ -1,0 +1,8 @@
+[Unit]
+Description=OOM Score Adjuster for Core Services
+After=core-fs.service
+
+[Service]
+Type=oneshot
+ExecStart=./services_core/oom-killer-adjuster/run
+User=root
