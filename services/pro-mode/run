@@ -1,0 +1,27 @@
+#!/bin/bash
+# Professional Mode - Performance & Debugging Overdrive
+
+LOG="/var/log/pro-mode.log"
+printf "\033[1;31m[!] WARNING: PROFESSIONAL MODE ACTIVATING...\033[0m\n"
+
+# 1. دفع المعالج لأقصى طاقة (Turbo Mode)
+if [ -f /sys/devices/system/cpu/cpufreq/boost ]; then
+    echo 1 > /sys/devices/system/cpu/cpufreq/boost
+fi
+for gov in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do
+    echo "performance" > "$gov" 2>/dev/null
+done
+
+# 2. زيادة حدود الملفات المفتوحة (Max File Descriptors)
+ulimit -n 65535
+
+# 3. تنظيف الذاكرة العشوائية لتهيئة بيئة عمل "نظيفة"
+sync; echo 3 > /proc/sys/vm/drop_caches
+
+# 4. فتح مراقبة النظام في Terminal منفصل (tty12 مثلاً)
+if [ -e /dev/tty12 ]; then
+    printf "Professional Mode Active. Monitoring Kernel...\n" > /dev/tty12
+    dmesg -w > /dev/tty12 &
+fi
+
+printf "\033[0;32m[+] Pro-Mode Active: Performance Unlocked, Debugging Enabled.\033[0m\n"
